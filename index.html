@@ -3,742 +3,269 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>TG DEMANDER BETA</title>
-
-  <!-- Google Fonts -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@800;900&family=Prompt:wght@400;500;600;700&display=swap" rel="stylesheet">
-
-  <style>
-    :root {
-      --bg-color: #f4f6f8;
-      --card-bg: #ffffff;
-      --text-color: #333333;
-      --subtext-color: #666666;
-      --input-bg: #f9f9f9;
-      --input-border: #ddd;
-      --form-bg: #fafafa;
-      --icon-bg: #f0f2f5;
-      --icon-hover: #e4e6eb;
-      --shadow: rgba(0, 0, 0, 0.08);
-    }
-
-    body.dark-mode {
-      --bg-color: #121212;
-      --card-bg: #1e1e1e;
-      --text-color: #e0e0e0;
-      --subtext-color: #aaaaaa;
-      --input-bg: #2a2a2a;
-      --input-border: #444444;
-      --form-bg: #252525;
-      --icon-bg: #2d2d2d;
-      --icon-hover: #3d3d3d;
-      --shadow: rgba(0, 0, 0, 0.4);
-    }
-
-    * {
-      box-sizing: border-box;
-      font-family: 'Prompt', -apple-system, BlinkMacSystemFont, sans-serif;
-    }
-
-    body {
-      background-color: var(--bg-color);
-      padding: 12px;
-      margin: 0;
-      display: flex;
-      justify-content: center;
-      transition: background-color 0.3s ease;
-    }
-    
-    .card {
-      background: var(--card-bg);
-      padding: 18px 14px;
-      border-radius: 18px;
-      box-shadow: 0 4px 20px var(--shadow);
-      width: 100%;
-      max-width: 260px;
-      color: var(--text-color);
-      position: relative;
-      transition: background-color 0.3s ease;
-    }
-
-    .header-container {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-bottom: 10px;
-      padding: 0 1px 10px 1px;
-      border-bottom: 1px solid var(--input-border);
-    }
-
-    .brand-group {
-      display: flex;
-      align-items: center;
-      gap: 7px;
-      min-width: 0;
-      flex-shrink: 1;
-      overflow: hidden;
-    }
-    .brand-logo {
-      flex-shrink: 0;
-      filter: drop-shadow(0 2px 3px rgba(6, 199, 85, 0.25));
-    }
-
-    .title-header {
-      font-family: 'Outfit', 'Prompt', sans-serif;
-      font-size: 13px;
-      font-weight: 900;
-      margin: 0;
-      letter-spacing: 0.1px;
-      text-transform: uppercase;
-      display: flex;
-      align-items: center;
-      gap: 5px;
-      min-width: 0;
-    }
-    .brand-name {
-      background: linear-gradient(135deg, #06C755 0%, #009940 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-      min-width: 0;
-      flex-shrink: 1;
-    }
-
-    .badge-pro {
-      font-size: 8px;
-      font-weight: 800;
-      background: linear-gradient(135deg, #ffd76a 0%, #ffb340 45%, #ff8f1f 100%);
-      color: #6b3d00;
-      -webkit-text-fill-color: #6b3d00;
-      padding: 2px 5px 2px 4px;
-      border-radius: 5px;
-      letter-spacing: 0.3px;
-      display: inline-flex;
-      align-items: center;
-      gap: 1px;
-      line-height: 1.2;
-      box-shadow: 0 1px 3px rgba(255, 143, 31, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.6);
-      text-shadow: 0 1px 0 rgba(255, 255, 255, 0.3);
-      flex-shrink: 0;
-      white-space: nowrap;
-    }
-
-    .header-actions {
-      display: flex;
-      align-items: center;
-      gap: 3px;
-      flex-shrink: 0;
-    }
-    .theme-toggle-btn {
-      background: var(--icon-bg);
-      border: none;
-      font-size: 11px;
-      cursor: pointer;
-      width: 24px;
-      height: 24px;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: background 0.2s, transform 0.1s;
-      color: var(--text-color);
-    }
-    .theme-toggle-btn:hover { background: var(--icon-hover); }
-    .theme-toggle-btn:active { transform: scale(0.92); }
-    .theme-toggle-btn.active { background: #06C755; color: #fff; }
-
-    .category-tabs {
-      display: flex;
-      gap: 4px;
-      overflow-x: auto;
-      padding-bottom: 4px;
-      margin-bottom: 8px;
-      scrollbar-width: none;
-    }
-    .category-tabs::-webkit-scrollbar { display: none; }
-    .category-chip {
-      padding: 3px 8px;
-      font-size: 10px;
-      font-weight: 600;
-      border-radius: 10px;
-      border: 1px solid var(--input-border);
-      background: var(--icon-bg);
-      color: var(--subtext-color);
-      cursor: pointer;
-      white-space: nowrap;
-    }
-    .category-chip.active {
-      background: linear-gradient(135deg, #06C755 0%, #009940 100%);
-      border-color: transparent;
-      color: #fff;
-    }
-
-    .btn-list {
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
-      margin-bottom: 12px;
-      max-height: 48vh;
-      overflow-y: auto;
-      padding-right: 2px;
-    }
-    .btn-item {
-      display: flex;
-      gap: 4px;
-      align-items: center;
-    }
-    
-    .action-btn {
-      flex: 1;
-      padding: 8px 9px;
-      font-size: 12.5px;
-      font-family: 'Prompt', sans-serif;
-      border: none;
-      border-radius: 6px;
-      background-color: #06C755;
-      color: white;
-      font-weight: 700;
-      line-height: 1.3;
-      cursor: pointer;
-      text-align: left;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      box-shadow: 0 2px 4px rgba(6, 199, 85, 0.15);
-      display: flex;
-      align-items: center;
-      min-width: 0;
-    }
-    .action-btn:active { transform: scale(0.98); background-color: #05b34c; }
-
-    .icon-btn {
-      width: 24px;
-      height: 24px;
-      padding: 0;
-      background: var(--icon-bg);
-      border: none;
-      border-radius: 6px;
-      cursor: pointer;
-      font-size: 11px;
-      color: var(--text-color);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-shrink: 0;
-    }
-
-    .move-stepper {
-      display: flex;
-      flex-direction: column;
-      border-radius: 6px;
-      overflow: hidden;
-      background: var(--icon-bg);
-      flex-shrink: 0;
-    }
-    .stepper-btn {
-      width: 18px;
-      height: 12px;
-      padding: 0;
-      background: transparent;
-      border: none;
-      cursor: pointer;
-      font-size: 7px;
-      line-height: 1;
-      color: var(--text-color);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-    .stepper-btn:first-child { border-bottom: 1px solid var(--input-border); }
-    .stepper-btn:disabled { opacity: 0.25; cursor: not-allowed; }
-
-    .add-form-header {
-      display: flex;
-      align-items: center;
-      justify-content: flex-end;
-      gap: 6px;
-      padding-top: 8px;
-      margin-bottom: 8px;
-      border-top: 1px solid var(--input-border);
-    }
-    .add-form-title-collapsed {
-      font-size: 11.5px;
-      font-weight: 700;
-      color: var(--text-color);
-      margin-right: auto;
-    }
-    .add-toggle-btn {
-      background: linear-gradient(135deg, #333333 0%, #111111 100%);
-      border: none;
-      color: #fff;
-      font-size: 10px;
-      cursor: pointer;
-      width: 22px;
-      height: 22px;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-shrink: 0;
-    }
-
-    .add-form {
-      background: var(--form-bg);
-      padding: 10px;
-      border-radius: 12px;
-      border: 1px solid var(--input-border);
-      margin-bottom: 10px;
-    }
-    .field-label {
-      font-size: 10px;
-      font-weight: 600;
-      color: var(--subtext-color);
-      display: block;
-      margin-bottom: 2px;
-    }
-    input, textarea {
-      width: 100%;
-      padding: 6px 8px;
-      margin-bottom: 6px;
-      border: 1px solid var(--input-border);
-      background: var(--input-bg);
-      color: var(--text-color);
-      border-radius: 6px;
-      font-size: 11px;
-      outline: none;
-    }
-
-    .submit-btn {
-      width: 100%;
-      padding: 7px;
-      background: linear-gradient(135deg, #06C755 0%, #009940 100%);
-      color: white;
-      border: none;
-      border-radius: 6px;
-      font-size: 11.5px;
-      font-weight: 700;
-      cursor: pointer;
-    }
-    .submit-btn.btn-secondary {
-      background: transparent;
-      color: var(--subtext-color);
-      border: 1px solid var(--input-border);
-      margin-top: 4px;
-    }
-
-    .camera-box {
-      border-top: 1px solid var(--input-border);
-      padding-top: 8px;
-      margin-bottom: 8px;
-    }
-
-    .backup-tools {
-      display: flex;
-      gap: 6px;
-      justify-content: center;
-      padding-top: 8px;
-      border-top: 1px solid var(--input-border);
-    }
-    .text-btn {
-      background: var(--icon-bg);
-      border: 1px solid var(--input-border);
-      color: var(--subtext-color);
-      font-size: 9.5px;
-      cursor: pointer;
-      padding: 4px 8px;
-      border-radius: 12px;
-    }
-
-    .credit-footer {
-      margin-top: 10px;
-      text-align: center;
-      font-size: 9.5px;
-      color: var(--subtext-color);
-    }
-
-    .modal-overlay {
-      position: fixed;
-      top: 0; left: 0; right: 0; bottom: 0;
-      background: rgba(0, 0, 0, 0.6);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      z-index: 2000;
-      opacity: 0;
-      visibility: hidden;
-      transition: opacity 0.2s, visibility 0.2s;
-    }
-    .modal-overlay.show { opacity: 1; visibility: visible; }
-    .modal-card {
-      background: var(--card-bg);
-      color: var(--text-color);
-      padding: 12px;
-      border-radius: 12px;
-      width: 220px;
-    }
-
-    .toast {
-      position: fixed;
-      bottom: 20px;
-      left: 50%;
-      transform: translateX(-50%);
-      background: rgba(0, 0, 0, 0.85);
-      color: white;
-      padding: 6px 14px;
-      border-radius: 16px;
-      font-size: 11.5px;
-      opacity: 0;
-      visibility: hidden;
-      transition: opacity 0.3s ease;
-      z-index: 3000;
-    }
-    .toast.show { opacity: 1; visibility: visible; }
-  </style>
+  <title>AI Food Tracker with Daily History</title>
+  <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body>
-
-  <div class="card">
-    <div class="header-container">
-      <div class="brand-group">
-        <svg class="brand-logo" width="28" height="28" viewBox="0 0 30 30">
-          <defs>
-            <linearGradient id="logoGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-              <stop offset="0%" stop-color="#06C755"/>
-              <stop offset="100%" stop-color="#009940"/>
-            </linearGradient>
-          </defs>
-          <path d="M6 2h18a4 4 0 0 1 4 4v13a4 4 0 0 1-4 4H13l-5.2 4.2c-0.6 0.5-1.5 0.1-1.5-0.7V23H6a4 4 0 0 1-4-4V6a4 4 0 0 1 4-4z" fill="url(#logoGrad)"/>
-          <text x="15" y="17.5" font-family="Outfit, sans-serif" font-weight="900" font-size="11" fill="#ffffff" text-anchor="middle">TG</text>
-        </svg>
-        <h2 class="title-header">
-          <span class="brand-name">DEMANDER</span> <span class="badge-pro">PRO</span>
-        </h2>
+<body class="bg-gray-100 p-4 min-h-screen">
+  <div class="max-w-md mx-auto space-y-4">
+    
+    <!-- Main Form Card -->
+    <div class="bg-white rounded-xl shadow-md p-6 space-y-4">
+      <h1 class="text-xl font-bold text-center text-gray-800">วิเคราะห์อาหารด้วย AI</h1>
+      
+      <!-- API Key Input -->
+      <div>
+        <label class="block text-xs font-medium text-gray-700">Gemini API Key</label>
+        <input type="password" id="apiKey" class="mt-1 w-full border rounded-md p-2 text-sm" placeholder="ใส่ API Key ของคุณ">
       </div>
-      <div class="header-actions">
-        <button class="theme-toggle-btn" id="themeBtn" onclick="toggleTheme()" title="สลับธีม">🌙</button>
+
+      <!-- Image Input -->
+      <div>
+        <label class="block text-xs font-medium text-gray-700">ถ่ายรูปหรือเลือกภาพอาหาร</label>
+        <input type="file" id="imageInput" accept="image/*" capture="environment" class="mt-1 w-full text-sm">
+      </div>
+
+      <button onclick="analyzeFood()" id="btnSubmit" class="w-full bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700 font-semibold text-sm">
+        วิเคราะห์รูปภาพ
+      </button>
+
+      <!-- Results Form (Editable) -->
+      <div id="resultSection" class="hidden border-t pt-4 space-y-3">
+        <h2 class="font-bold text-md text-gray-700">ผลการวิเคราะห์ (แก้ไขได้ก่อนบันทึก)</h2>
+        
+        <div>
+          <label class="text-xs text-gray-500">ชื่ออาหาร</label>
+          <input type="text" id="foodName" class="w-full border rounded p-2 text-sm font-semibold">
+        </div>
+
+        <div class="grid grid-cols-2 gap-2">
+          <div>
+            <label class="text-xs text-gray-500">น้ำหนักประมาณ (กรัม)</label>
+            <input type="number" id="weight" class="w-full border rounded p-2 text-sm">
+          </div>
+          <div>
+            <label class="text-xs text-gray-500">แคลอรีทั้งหมด (kcal)</label>
+            <input type="number" id="calories" class="w-full border rounded p-2 text-sm">
+          </div>
+        </div>
+
+        <div class="grid grid-cols-3 gap-2">
+          <div>
+            <label class="text-xs text-gray-500">โปรตีน (g)</label>
+            <input type="number" id="protein" class="w-full border rounded p-2 text-sm">
+          </div>
+          <div>
+            <label class="text-xs text-gray-500">คาร์โบไฮเดรต (g)</label>
+            <input type="number" id="carbs" class="w-full border rounded p-2 text-sm">
+          </div>
+          <div>
+            <label class="text-xs text-gray-500">ไขมัน (g)</label>
+            <input type="number" id="fat" class="w-full border rounded p-2 text-sm">
+          </div>
+        </div>
+
+        <button onclick="saveMeal()" class="w-full bg-green-600 text-white py-2 rounded-md hover:bg-green-700 font-semibold text-sm">
+          บันทึกรายการนี้ลงในประวัติประจำวัน
+        </button>
       </div>
     </div>
 
-    <!-- แท็บหมวดหมู่ -->
-    <div id="categoryTabs" class="category-tabs"></div>
+    <!-- Daily Summary Card -->
+    <div class="bg-white rounded-xl shadow-md p-6 space-y-4">
+      <div class="flex justify-between items-center border-b pb-2">
+        <h2 class="font-bold text-lg text-gray-800">สรุปโภชนาการวันนี้</h2>
+        <span id="currentDate" class="text-xs text-gray-500 font-medium"></span>
+      </div>
 
-    <!-- รายการปุ่ม -->
-    <div id="btnContainer" class="btn-list"></div>
+      <!-- Stats Grid -->
+      <div class="bg-blue-50 rounded-lg p-4 text-center">
+        <p class="text-xs text-blue-600 font-semibold uppercase">แคลอรีสะสมรวม</p>
+        <p class="text-3xl font-extrabold text-blue-700"><span id="totalCalories">0</span> <span class="text-sm font-normal">kcal</span></p>
+      </div>
 
-    <!-- ปุ่มเปิดกล้อง/เลือกรูปถ่าย -->
-    <div class="camera-box">
-      <input type="file" id="cameraInput" accept="image/*" capture="environment" style="display:none;" onchange="handleImageCaptured(event)">
-      <button class="submit-btn" style="background: linear-gradient(135deg, #007aff 0%, #0056b3 100%);" onclick="document.getElementById('cameraInput').click()">📷 ถ่ายรูป / เลือกรูปภาพ</button>
+      <div class="grid grid-cols-3 gap-2 text-center text-xs">
+        <div class="bg-gray-50 p-2 rounded border">
+          <p class="text-gray-500">โปรตีนรวม</p>
+          <p class="font-bold text-gray-800"><span id="totalProtein">0</span> g</p>
+        </div>
+        <div class="bg-gray-50 p-2 rounded border">
+          <p class="text-gray-500">คาร์บรวม</p>
+          <p class="font-bold text-gray-800"><span id="totalCarbs">0</span> g</p>
+        </div>
+        <div class="bg-gray-50 p-2 rounded border">
+          <p class="text-gray-500">ไขมันรวม</p>
+          <p class="font-bold text-gray-800"><span id="totalFat">0</span> g</p>
+        </div>
+      </div>
+
+      <!-- Meal History List -->
+      <div class="space-y-2">
+        <h3 class="font-semibold text-sm text-gray-700">รายการอาหารวันนี้</h3>
+        <div id="historyList" class="space-y-2 max-h-60 overflow-y-auto">
+          <!-- Meal items will be injected here -->
+        </div>
+      </div>
     </div>
 
-    <!-- ฟอร์มเพิ่ม/แก้ไข -->
-    <div class="add-form-header">
-      <span id="formTitle" class="add-form-title-collapsed" style="display:none;">➕ เพิ่มปุ่มใหม่</span>
-      <button class="theme-toggle-btn" id="editModeBtn" onclick="toggleEditMode()" title="แก้ไข">✏️</button>
-      <button class="add-toggle-btn" id="addToggleBtn" onclick="toggleAddForm()" title="เพิ่มปุ่ม">➕</button>
-    </div>
-
-    <div class="add-form" id="addFormBody" style="display:none;">
-      <input type="hidden" id="editIndex" value="-1">
-      <label class="field-label" for="btnLabel">ชื่อบนปุ่ม</label>
-      <input type="text" id="btnLabel" placeholder="เช่น ทักทายลูกค้า">
-      <label class="field-label" for="btnText">ข้อความคัดลอก</label>
-      <textarea id="btnText" rows="2" placeholder="ใส่ {ตัวแปร} ได้"></textarea>
-      <label class="field-label" for="btnCategory">หมวดหมู่</label>
-      <input type="text" id="btnCategory" placeholder="เช่น ทักทาย">
-      <button class="submit-btn" id="saveBtn" onclick="saveButton()">บันทึกปุ่ม</button>
-      <button class="submit-btn btn-secondary" onclick="closeAddForm()">ยกเลิก</button>
-    </div>
-
-    <!-- สำรองข้อมูล -->
-    <div class="backup-tools">
-      <button class="text-btn" onclick="exportData()">📥 สำรองข้อมูล</button>
-      <button class="text-btn" onclick="document.getElementById('importFile').click()">📤 นำเข้าข้อมูล</button>
-      <input type="file" id="importFile" accept=".json" style="display:none" onchange="importData(event)">
-    </div>
-
-    <div class="credit-footer">DESIGN BY BUNDIT (TG38547)</div>
   </div>
-
-  <!-- Modal Dynamic Variables -->
-  <div id="varModal" class="modal-overlay">
-    <div class="modal-card">
-      <h4 style="margin:0 0 6px 0; font-size:12px; color:#06C755; text-align:center;">📝 กรอกข้อมูลเพิ่มเติม</h4>
-      <div id="varFields"></div>
-      <button class="submit-btn" onclick="submitVariables()" style="margin-top:6px;">คัดลอกข้อความ</button>
-      <button class="submit-btn btn-secondary" onclick="closeVarModal()">ยกเลิก</button>
-    </div>
-  </div>
-
-  <div id="toast" class="toast">คัดลอกข้อความแล้ว!</div>
 
   <script>
-    const defaultButtons = [
-      { label: "💬 ทักทายระบุชื่อ", text: "สวัสดีครับคุณ {ชื่อลูกค้า} มีเรื่องสอบถามเพิ่มเติมครับ", category: "ทักทาย" },
-      { label: "💸 แจ้งยอดเงิน", text: "ยอดชำระของคุณ {ชื่อลูกค้า} คือ {ยอดเงิน} บาทครับ", category: "การเงิน" },
-      { label: "🙏 ขอบคุณ", text: "ขอบคุณมากครับ/ค่ะ 🙏", category: "ทั่วไป" }
-    ];
+    // โหลด API Key และประวัติอาหารเมื่อเปิดหน้าเว็บ
+    document.addEventListener('DOMContentLoaded', () => {
+      const savedKey = localStorage.getItem('gemini_api_key');
+      if (savedKey) document.getElementById('apiKey').value = savedKey;
+      
+      const today = new Date().toISOString().split('T')[0];
+      document.getElementById('currentDate').innerText = today;
+      
+      renderHistory();
+    });
 
-    let buttons = JSON.parse(localStorage.getItem('line_custom_buttons')) || defaultButtons;
-    let currentTemplateText = '';
-    let toastTimeout;
-    let activeCategory = 'all';
-    let editModeOn = localStorage.getItem('tg_edit_mode') === 'on';
+    async function analyzeFood() {
+      const apiKey = document.getElementById('apiKey').value;
+      const fileInput = document.getElementById('imageInput');
+      const btn = document.getElementById('btnSubmit');
 
-    function initTheme() {
-      const isDark = localStorage.getItem('tg_theme') === 'dark';
-      if (isDark) {
-        document.body.classList.add('dark-mode');
-        document.getElementById('themeBtn').innerText = '☀️';
-      }
-    }
+      if (!apiKey) return alert('กรุณาใส่ Gemini API Key');
+      if (!fileInput.files[0]) return alert('กรุณาถ่ายรูปหรือเลือกไฟล์ภาพ');
 
-    function toggleTheme() {
-      document.body.classList.toggle('dark-mode');
-      const isDark = document.body.classList.contains('dark-mode');
-      localStorage.setItem('tg_theme', isDark ? 'dark' : 'light');
-      document.getElementById('themeBtn').innerText = isDark ? '☀️' : '🌙';
-    }
+      // บันทึก API Key ไว้ใช้ครั้งต่อไป
+      localStorage.setItem('gemini_api_key', apiKey);
 
-    function toggleEditMode() {
-      editModeOn = !editModeOn;
-      localStorage.setItem('tg_edit_mode', editModeOn ? 'on' : 'off');
-      document.getElementById('editModeBtn').classList.toggle('active', editModeOn);
-      renderButtons();
-    }
+      btn.innerText = 'กำลังวิเคราะห์...';
+      btn.disabled = true;
 
-    function getAllCategories() {
-      return [...new Set(buttons.map(b => b.category || 'ทั่วไป'))].sort();
-    }
-
-    function renderCategoryTabs() {
-      const tabsContainer = document.getElementById('categoryTabs');
-      const categories = getAllCategories();
-
-      if (categories.length <= 1) {
-        tabsContainer.innerHTML = '';
-        activeCategory = 'all';
-        return;
-      }
-
-      let html = `<button class="category-chip ${activeCategory === 'all' ? 'active' : ''}" onclick="selectCategory('all')">ทั้งหมด</button>`;
-      categories.forEach(cat => {
-        html += `<button class="category-chip ${activeCategory === cat ? 'active' : ''}" onclick="selectCategory('${cat}')">${cat}</button>`;
-      });
-      tabsContainer.innerHTML = html;
-    }
-
-    function selectCategory(cat) {
-      activeCategory = cat;
-      renderButtons();
-    }
-
-    function renderButtons() {
-      renderCategoryTabs();
-      const container = document.getElementById('btnContainer');
-      container.innerHTML = '';
-
-      const filtered = buttons
-        .map((btn, index) => ({ btn, index }))
-        .filter(({ btn }) => activeCategory === 'all' || (btn.category || 'ทั่วไป') === activeCategory);
-
-      if (filtered.length === 0) {
-        container.innerHTML = '<div style="text-align:center;font-size:11px;color:#888;">ไม่มีปุ่มข้อความ</div>';
-        return;
-      }
-
-      filtered.forEach(({ btn, index }) => {
-        const item = document.createElement('div');
-        item.className = 'btn-item';
-        const editControls = editModeOn ? `
-          <div class="move-stepper">
-            <button class="stepper-btn" onclick="moveButton(${index}, -1)" ${index === 0 ? 'disabled' : ''}>▲</button>
-            <button class="stepper-btn" onclick="moveButton(${index}, 1)" ${index === buttons.length - 1 ? 'disabled' : ''}>▼</button>
-          </div>
-          <button class="icon-btn" onclick="editButton(${index})">✏️</button>
-          <button class="icon-btn" onclick="deleteButton(${index})">🗑️</button>
-        ` : '';
-
-        item.innerHTML = `
-          <button class="action-btn" onclick="handleButtonClick(${index})">
-            <span style="overflow:hidden;text-overflow:ellipsis;">${btn.label}</span>
-          </button>
-          ${editControls}
-        `;
-        container.appendChild(item);
-      });
-
-      localStorage.setItem('line_custom_buttons', JSON.stringify(buttons));
-    }
-
-    function handleButtonClick(index) {
-      const rawText = buttons[index].text;
-      const matches = rawText.match(/\{([^}]+)\}/g);
-
-      if (matches && matches.length > 0) {
-        const vars = [...new Set(matches.map(m => m.slice(1, -1)))];
-        openVarModal(rawText, vars);
-      } else {
-        copyToClipboard(rawText);
-      }
-    }
-
-    function openVarModal(rawText, vars) {
-      currentTemplateText = rawText;
-      const container = document.getElementById('varFields');
-      container.innerHTML = '';
-
-      vars.forEach(v => {
-        container.innerHTML += `
-          <div style="margin-bottom:6px;">
-            <label style="font-size:10px;display:block;">${v}:</label>
-            <input type="text" class="var-input" data-var="${v}" placeholder="ระบุ ${v}...">
-          </div>
-        `;
-      });
-
-      document.getElementById('varModal').classList.add('show');
-    }
-
-    function submitVariables() {
-      let finalText = currentTemplateText;
-      const inputs = document.querySelectorAll('.var-input');
-      inputs.forEach(input => {
-        const varName = input.getAttribute('data-var');
-        const val = input.value.trim() || `{${varName}}`;
-        finalText = finalText.replaceAll(`{${varName}}`, val);
-      });
-      closeVarModal();
-      copyToClipboard(finalText);
-    }
-
-    function closeVarModal() {
-      document.getElementById('varModal').classList.remove('show');
-    }
-
-    async function copyToClipboard(text) {
       try {
-        await navigator.clipboard.writeText(text);
-        showToast("คัดลอกเรียบร้อย!");
-      } catch (e) {
-        const textarea = document.createElement('textarea');
-        textarea.value = text;
-        document.body.appendChild(textarea);
-        textarea.select();
-        document.execCommand('copy');
-        document.body.removeChild(textarea);
-        showToast("คัดลอกเรียบร้อย!");
+        const file = fileInput.files[0];
+        const base64Image = await convertToBase64(file);
+        const pureBase64 = base64Image.split(',')[1];
+
+        const prompt = `วิเคราะห์ภาพอาหารนี้แล้วตอบกลับเป็น JSON ภาษาไทยเท่านั้น ตามโครงสร้างดังนี้:
+        {
+          "foodName": "ชื่ออาหาร",
+          "weight": น้ำหนักเป็นกรัม (ตัวเลข),
+          "calories": แคลอรีรวม (ตัวเลข),
+          "protein": โปรตีนเป็นกรัม (ตัวเลข),
+          "carbs": คาร์โบไฮเดรตเป็นกรัม (ตัวเลข),
+          "fat": ไขมันเป็นกรัม (ตัวเลข)
+        }`;
+
+        const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            contents: [{
+              parts: [
+                { text: prompt },
+                { inline_data: { mime_type: file.type, data: pureBase64 } }
+              ]
+            }],
+            generationConfig: { response_mime_type: "application/json" }
+          })
+        });
+
+        const data = await response.json();
+        const resultText = data.candidates[0].content.parts[0].text;
+        const foodData = JSON.parse(resultText);
+
+        document.getElementById('foodName').value = foodData.foodName || '';
+        document.getElementById('weight').value = foodData.weight || 0;
+        document.getElementById('calories').value = foodData.calories || 0;
+        document.getElementById('protein').value = foodData.protein || 0;
+        document.getElementById('carbs').value = foodData.carbs || 0;
+        document.getElementById('fat').value = foodData.fat || 0;
+
+        document.getElementById('resultSection').classList.remove('hidden');
+      } catch (err) {
+        alert('เกิดข้อผิดพลาดในการวิเคราะห์: ' + err.message);
+      } finally {
+        btn.innerText = 'วิเคราะห์รูปภาพ';
+        btn.disabled = false;
       }
     }
 
-    function handleImageCaptured(event) {
-      const file = event.target.files[0];
-      if (file) {
-        showToast("เลือกรูปภาพสำเร็จแล้ว!");
-      }
-    }
-
-    function toggleAddForm() {
-      const body = document.getElementById('addFormBody');
-      const isHidden = body.style.display === 'none';
-      body.style.display = isHidden ? 'block' : 'none';
-      document.getElementById('formTitle').style.display = isHidden ? 'inline' : 'none';
-    }
-
-    function closeAddForm() {
-      document.getElementById('addFormBody').style.display = 'none';
-      document.getElementById('formTitle').style.display = 'none';
-      document.getElementById('btnLabel').value = '';
-      document.getElementById('btnText').value = '';
-      document.getElementById('btnCategory').value = '';
-      document.getElementById('editIndex').value = '-1';
-    }
-
-    function saveButton() {
-      const label = document.getElementById('btnLabel').value.trim();
-      const text = document.getElementById('btnText').value.trim();
-      const category = document.getElementById('btnCategory').value.trim() || 'ทั่วไป';
-      const editIndex = parseInt(document.getElementById('editIndex').value);
-
-      if (!label || !text) {
-        alert('กรุณากรอกทั้งชื่อปุ่มและข้อความ');
-        return;
-      }
-
-      if (editIndex === -1) {
-        buttons.push({ label, text, category });
-      } else {
-        buttons[editIndex] = { label, text, category };
-      }
-
-      closeAddForm();
-      renderButtons();
-      showToast("บันทึกสำเร็จ!");
-    }
-
-    function editButton(index) {
-      document.getElementById('btnLabel').value = buttons[index].label;
-      document.getElementById('btnText').value = buttons[index].text;
-      document.getElementById('btnCategory').value = buttons[index].category || '';
-      document.getElementById('editIndex').value = index;
-      toggleAddForm();
-    }
-
-    function deleteButton(index) {
-      if (confirm('ยืนยันลบปุ่มนี้?')) {
-        buttons.splice(index, 1);
-        renderButtons();
-        showToast("ลบเรียบร้อย!");
-      }
-    }
-
-    function moveButton(index, dir) {
-      const target = index + dir;
-      if (target < 0 || target >= buttons.length) return;
-      const temp = buttons[index];
-      buttons[index] = buttons[target];
-      buttons[target] = temp;
-      renderButtons();
-    }
-
-    function showToast(msg) {
-      const toast = document.getElementById('toast');
-      toast.innerText = msg;
-      toast.classList.add('show');
-      clearTimeout(toastTimeout);
-      toastTimeout = setTimeout(() => toast.classList.remove('show'), 1500);
-    }
-
-    function exportData() {
-      const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(buttons, null, 2));
-      const a = document.createElement('a');
-      a.href = dataStr;
-      a.download = 'tg_demander_backup.json';
-      a.click();
-    }
-
-    function importData(event) {
-      const file = event.target.files[0];
-      if (!file) return;
-      const reader = new FileReader();
-      reader.onload = (e) => {
-        try {
-          buttons = JSON.parse(e.target.result);
-          renderButtons();
-          showToast("นำเข้าข้อมูลสำเร็จ!");
-        } catch (err) {
-          alert("ไฟล์ไม่ถูกต้อง");
-        }
+    function saveMeal() {
+      const meal = {
+        id: Date.now(),
+        date: new Date().toISOString().split('T')[0],
+        time: new Date().toLocaleTimeString('th-TH', { hour: '2-digit', minute: '2-digit' }),
+        foodName: document.getElementById('foodName').value || 'ไม่ระบุชื่อ',
+        weight: Number(document.getElementById('weight').value) || 0,
+        calories: Number(document.getElementById('calories').value) || 0,
+        protein: Number(document.getElementById('protein').value) || 0,
+        carbs: Number(document.getElementById('carbs').value) || 0,
+        fat: Number(document.getElementById('fat').value) || 0
       };
-      reader.readAsText(file);
+
+      const history = JSON.parse(localStorage.getItem('food_history') || '[]');
+      history.push(meal);
+      localStorage.setItem('food_history', JSON.stringify(history));
+
+      // Reset Form & Hide Result Section
+      document.getElementById('resultSection').classList.add('hidden');
+      document.getElementById('imageInput').value = '';
+
+      renderHistory();
+      alert('บันทึกเรียบร้อยแล้ว!');
     }
 
-    initTheme();
-    renderButtons();
+    function deleteMeal(id) {
+      let history = JSON.parse(localStorage.getItem('food_history') || '[]');
+      history = history.filter(item => item.id !== id);
+      localStorage.setItem('food_history', JSON.stringify(history));
+      renderHistory();
+    }
+
+    function renderHistory() {
+      const today = new Date().toISOString().split('T')[0];
+      const history = JSON.parse(localStorage.getItem('food_history') || '[]');
+      const todayMeals = history.filter(item => item.date === today);
+
+      const historyList = document.getElementById('historyList');
+      historyList.innerHTML = '';
+
+      let totalCal = 0, totalP = 0, totalC = 0, totalF = 0;
+
+      if (todayMeals.length === 0) {
+        historyList.innerHTML = '<p class="text-xs text-center text-gray-400 py-4">ยังไม่มีรายการอาหารวันนี้</p>';
+      } else {
+        todayMeals.forEach(meal => {
+          totalCal += meal.calories;
+          totalP += meal.protein;
+          totalC += meal.carbs;
+          totalF += meal.fat;
+
+          const card = document.createElement('div');
+          card.className = 'flex justify-between items-center bg-gray-50 p-2.5 rounded border text-xs';
+          card.innerHTML = `
+            <div>
+              <p class="font-bold text-gray-800">${meal.foodName} <span class="font-normal text-gray-400">(${meal.weight}g)</span></p>
+              <p class="text-gray-500">${meal.time} • P:${meal.protein}g C:${meal.carbs}g F:${meal.fat}g</p>
+            </div>
+            <div class="flex items-center space-x-2">
+              <span class="font-bold text-blue-600">${meal.calories} kcal</span>
+              <button onclick="deleteMeal(${meal.id})" class="text-red-500 hover:text-red-700 font-bold px-1">✕</button>
+            </div>
+          `;
+          historyList.appendChild(card);
+        });
+      }
+
+      // Update Summary Cards
+      document.getElementById('totalCalories').innerText = totalCal;
+      document.getElementById('totalProtein').innerText = totalP;
+      document.getElementById('totalCarbs').innerText = totalC;
+      document.getElementById('totalFat').innerText = totalF;
+    }
+
+    function convertToBase64(file) {
+      return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = () => resolve(reader.result);
+        reader.onerror = error => reject(error);
+      });
+    }
   </script>
 </body>
 </html>
